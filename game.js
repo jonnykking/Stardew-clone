@@ -246,39 +246,39 @@ const SPRITE_DATA = {
         '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_'
     ],
     [TILES.FENCE]: [
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,F1,F1,F1,F1,_,_,_,_,_,_',
-        '_,_,_,_,_,F1,F2,F2,F2,F1,_,_,_,_,_,_',
-        '_,_,F1,F1,F1,F2,F2,F2,F2,F1,F1,F1,_,_,_',
-        'F1,F1,F2,F2,F2,F2,F2,F2,F2,F2,F2,F2,F1,F1',
-        'F2,F2,F3,F3,F3,F2,F2,F2,F2,F3,F3,F3,F2,F2',
-        'F3,F3,_,_,_,F2,F2,F2,F2,_,_,_,F3,F3',
-        '_,_,_,_,_,F2,F2,F2,F2,_,_,_,_,_',
-        '_,_,_,_,_,F2,F3,F3,F2,_,_,_,_,_',
-        '_,_,F1,F1,F1,F2,F3,F3,F2,F1,F1,F1,_,_,_',
-        'F1,F1,F2,F2,F2,F3,F3,F3,F3,F2,F2,F2,F1,F1',
-        'F2,F2,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F2,F2',
-        'F3,F3,_,_,_,F3,F3,F3,F3,_,_,_,F3,F3',
-        '_,_,_,_,_,F3,F3,F3,F3,_,_,_,_,_',
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_'
+        '_,_,_,_,_,_,_,F1,F2,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F1,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        'F1,F1,F1,F1,F1,F1,F1,F2,F1,F1,F1,F1,F1,F1,F1,F1',
+        'F2,F2,F2,F2,F2,F2,F2,F3,F2,F2,F2,F2,F2,F2,F2,F2',
+        'F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        'F1,F1,F1,F1,F1,F1,F1,F2,F1,F1,F1,F1,F1,F1,F1,F1',
+        'F2,F2,F2,F2,F2,F2,F2,F3,F2,F2,F2,F2,F2,F2,F2,F2',
+        'F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F3,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F3,F3,_,_,_,_,_,_,_'
     ],
     [TILES.PATH]: [
         '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
-        '_,_,_,R2,R2,R2,R1,R1,R2,R3,_,_,_,_,_,_',
-        '_,_,R2,R3,R2,R1,R1,R2,R3,R3,R2,R1,R1,_,_',
-        '_,R1,R3,R3,R2,R1,R2,R3,R3,R3,R2,R1,R1,R2',
-        '_,R1,R2,R3,R3,R2,R2,R3,R3,R2,R2,R1,R2,R1',
-        'R2,R2,R2,R2,R3,R3,R2,R2,R3,R2,R1,R1,R2,R2',
-        'R3,R2,R2,R2,R2,R3,R3,R2,R2,R2,R1,R2,R2,R3',
-        'R3,R3,R2,R2,R2,R2,R3,R3,R2,R2,R2,R2,R3,R3',
-        'R3,R3,R3,R2,R2,R2,R2,R3,R3,R2,R2,R3,R3,R3',
-        '_,R3,R3,R3,R2,R2,R2,R2,R3,R3,R2,R3,R3,R3',
-        '_,_,R3,R3,R3,R2,R2,R2,R2,R3,R3,R3,R3,_,_',
-        '_,_,_,R3,R3,R3,R2,R2,R2,R3,R3,R3,_,_,_,_',
-        '_,_,_,_,R3,R3,R3,R2,R2,R3,R3,_,_,_,_,_',
-        '_,_,_,_,_,R3,R3,R3,R3,R3,_,_,_,_,_,_',
-        '_,_,_,_,_,_,R3,R3,R3,_,_,_,_,_,_,_',
+        '_,_,R2,R1,R1,_,_,_,_,R3,R2,R1,_,_,_,_',
+        '_,R2,R3,R2,R1,_,_,R3,R3,R3,R2,_,_,_,_',
+        '_,R1,R2,R2,R1,_,_,_,R3,R2,R1,_,_,_,_',
+        '_,_,R1,R1,_,_,_,_,_,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,R2,R2,R1,_,_,_,_,_,_,_',
+        '_,_,_,_,_,R2,R3,R2,R1,_,_,_,_,_,_,_',
+        '_,_,_,_,_,R1,R2,R2,R1,_,_,_,R2,R1,_,_',
+        '_,R2,R2,_,_,R1,R1,_,_,_,_,R2,R3,R1,_',
+        'R2,R3,R2,R1,_,_,_,_,_,_,_,R1,R2,R1,_',
+        '_,R2,R2,R1,_,_,_,_,_,_,_,_,R1,_,_,_',
+        '_,_,_,_,_,_,_,_,R2,R2,R1,_,_,_,_,_',
+        '_,_,_,_,_,_,_,R2,R3,R2,R1,_,_,_,_,_',
+        '_,_,_,_,_,_,_,R1,R2,R2,R1,_,_,_,_,_',
+        '_,_,_,_,_,_,_,_,R1,R1,_,_,_,_,_,_',
         '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_'
     ],
     [TILES.TREE]: [ // 16x32 Matrix
@@ -818,18 +818,18 @@ function drawTile(tileType, drawX, drawY) {
     let gSprite = sprites.getSprite(TILES.GRASS, SPRITE_DATA[TILES.GRASS], 16, 16, 4);
     ctx.drawImage(gSprite, drawX, drawY);
 
-    if (tileType === TILES.DIRT || tileType >= TILES.SEEDS || tileType === TILES.FENCE || tileType === TILES.PATH) {
+    let isCropOrDirt = tileType === TILES.DIRT || (tileType >= TILES.SEEDS && tileType <= TILES.CROP_READY);
+    if (isCropOrDirt || tileType === TILES.FENCE || tileType === TILES.PATH) {
         let isWatered = wateredTiles.has(`${drawX / TILE_SIZE + camera.x / TILE_SIZE},${drawY / TILE_SIZE + camera.y / TILE_SIZE}`);
-        let dSprite = sprites.getSprite(TILES.DIRT, SPRITE_DATA[TILES.DIRT], 16, 16, 4);
 
-        // If watered, draw slightly darker dirt underneath instead
-        if (isWatered && (tileType === TILES.DIRT || tileType >= TILES.SEEDS)) {
-            // Very simple hack for "wet dirt": draw dirt, then draw translucent black over it
+        if (isCropOrDirt) {
+            let dSprite = sprites.getSprite(TILES.DIRT, SPRITE_DATA[TILES.DIRT], 16, 16, 4);
             ctx.drawImage(dSprite, drawX, drawY);
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-            ctx.fillRect(drawX, drawY, TILE_SIZE, TILE_SIZE);
-        } else if (tileType === TILES.DIRT || tileType >= TILES.SEEDS) {
-            ctx.drawImage(dSprite, drawX, drawY);
+            if (isWatered) {
+                // Very simple hack for "wet dirt": draw translucent black over it
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                ctx.fillRect(drawX, drawY, TILE_SIZE, TILE_SIZE);
+            }
         }
 
         if (tileType === TILES.SEEDS) {
