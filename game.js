@@ -22,7 +22,9 @@ const TILES = {
     DIRT: 4,
     SEEDS: 5,
     CROP_GROWING: 6,
-    CROP_READY: 7
+    CROP_READY: 7,
+    FENCE: 8,
+    PATH: 9
 };
 
 // Colors for our procedurally drawn assets
@@ -92,7 +94,9 @@ const P = {
     A1: '#df7126', A2: '#8f563b', // Hat
     EY: '#181425', // Eyes
     // Crops
-    C1: '#7bc676', C2: '#4a9c45', C3: '#f2f0e6', C4: '#d95763'
+    C1: '#7bc676', C2: '#4a9c45', C3: '#f2f0e6', C4: '#d95763',
+    // Decor
+    F1: '#c0a062', F2: '#9a7b45', F3: '#73562a' // Fences
 };
 
 const SPRITE_DATA = {
@@ -239,6 +243,42 @@ const SPRITE_DATA = {
         '_,_,_,_,_,_,_,C4,_,_,_,_,_,_,_,_',
         '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
         '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_'
+    ],
+    [TILES.FENCE]: [
+        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,F1,F1,F1,F1,_,_,_,_,_,_',
+        '_,_,_,_,_,F1,F2,F2,F2,F1,_,_,_,_,_,_',
+        '_,_,F1,F1,F1,F2,F2,F2,F2,F1,F1,F1,_,_,_',
+        'F1,F1,F2,F2,F2,F2,F2,F2,F2,F2,F2,F2,F1,F1',
+        'F2,F2,F3,F3,F3,F2,F2,F2,F2,F3,F3,F3,F2,F2',
+        'F3,F3,_,_,_,F2,F2,F2,F2,_,_,_,F3,F3',
+        '_,_,_,_,_,F2,F2,F2,F2,_,_,_,_,_',
+        '_,_,_,_,_,F2,F3,F3,F2,_,_,_,_,_',
+        '_,_,F1,F1,F1,F2,F3,F3,F2,F1,F1,F1,_,_,_',
+        'F1,F1,F2,F2,F2,F3,F3,F3,F3,F2,F2,F2,F1,F1',
+        'F2,F2,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F2,F2',
+        'F3,F3,_,_,_,F3,F3,F3,F3,_,_,_,F3,F3',
+        '_,_,_,_,_,F3,F3,F3,F3,_,_,_,_,_',
+        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_'
+    ],
+    [TILES.PATH]: [
+        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
+        '_,_,_,R2,R2,R2,R1,R1,R2,R3,_,_,_,_,_,_',
+        '_,_,R2,R3,R2,R1,R1,R2,R3,R3,R2,R1,R1,_,_',
+        '_,R1,R3,R3,R2,R1,R2,R3,R3,R3,R2,R1,R1,R2',
+        '_,R1,R2,R3,R3,R2,R2,R3,R3,R2,R2,R1,R2,R1',
+        'R2,R2,R2,R2,R3,R3,R2,R2,R3,R2,R1,R1,R2,R2',
+        'R3,R2,R2,R2,R2,R3,R3,R2,R2,R2,R1,R2,R2,R3',
+        'R3,R3,R2,R2,R2,R2,R3,R3,R2,R2,R2,R2,R3,R3',
+        'R3,R3,R3,R2,R2,R2,R2,R3,R3,R2,R2,R3,R3,R3',
+        '_,R3,R3,R3,R2,R2,R2,R2,R3,R3,R2,R3,R3,R3',
+        '_,_,R3,R3,R3,R2,R2,R2,R2,R3,R3,R3,R3,_,_',
+        '_,_,_,R3,R3,R3,R2,R2,R2,R3,R3,R3,_,_,_,_',
+        '_,_,_,_,R3,R3,R3,R2,R2,R3,R3,_,_,_,_,_',
+        '_,_,_,_,_,R3,R3,R3,R3,R3,_,_,_,_,_,_',
+        '_,_,_,_,_,_,R3,R3,R3,_,_,_,_,_,_,_',
         '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_'
     ],
     [TILES.TREE]: [ // 16x32 Matrix
@@ -506,13 +546,16 @@ window.addEventListener('keydown', e => keys[e.code] = true);
 window.addEventListener('keyup', e => keys[e.code] = false);
 
 // UI Tools
-let activeTool = 0; // 0=Axe, 1=Pickaxe, 2=Hoe, 3=Seeds
+let activeTool = 0; // 0=Axe, 1=Pickaxe, 2=Hoe, 3=Seeds, 4=Can, 5=Fence, 6=Path
 const slots = document.querySelectorAll('.slot');
 window.addEventListener('keydown', e => {
     if (e.code === 'Digit1') setTool(0);
     if (e.code === 'Digit2') setTool(1);
     if (e.code === 'Digit3') setTool(2);
     if (e.code === 'Digit4') setTool(3);
+    if (e.code === 'Digit5') setTool(4);
+    if (e.code === 'Digit6') setTool(5);
+    if (e.code === 'Digit7') setTool(6);
 });
 function setTool(index) {
     activeTool = index;
@@ -539,6 +582,7 @@ function addInventory(type, amount) {
 }
 
 let activeCrops = []; // Track active crops {x, y, plantTime}
+let wateredTiles = new Set(); // Track tiles watered today. Stores "x,y" string
 
 // --- Entities & Camera ---
 class Player {
@@ -663,10 +707,43 @@ window.addEventListener('keydown', e => {
 
 function interact() {
     const targetTile = player.getFacingTile();
-
     if (targetTile.x < 0 || targetTile.x >= MAP_WIDTH || targetTile.y < 0 || targetTile.y >= MAP_HEIGHT) return;
 
     let tileType = map[targetTile.y][targetTile.x];
+
+    // Helper: scan a 2x2 area around a target coordinate to see if we hit a large object.
+    const findLargeObject = (type, tx, ty) => {
+        for (let oy = -1; oy <= 1; oy++) {
+            for (let ox = -1; ox <= 1; ox++) {
+                if (ty + oy >= 0 && ty + oy < MAP_HEIGHT && tx + ox >= 0 && tx + ox < MAP_WIDTH) {
+                    if (map[ty + oy][tx + ox] === type) return { x: tx + ox, y: ty + oy };
+                }
+            }
+        }
+        return null; // Not found Let's just check 2x2 explicitly
+    };
+
+    // Helper: Explicit 2x2 check considering tree's top-left origin
+    const findTree = (tx, ty) => {
+        let pts = [{ x: tx, y: ty }, { x: tx - 1, y: ty }, { x: tx, y: ty - 1 }, { x: tx - 1, y: ty - 1 }];
+        for (let p of pts) {
+            if (p.x >= 0 && p.x < MAP_WIDTH && p.y >= 0 && p.y < MAP_HEIGHT) {
+                if (map[p.y][p.x] === TILES.TREE) return p;
+            }
+        }
+        return null;
+    };
+
+    // Helper: Explicit 2x2 check for rocks
+    const findRock = (tx, ty) => {
+        let pts = [{ x: tx, y: ty }, { x: tx - 1, y: ty }, { x: tx, y: ty - 1 }, { x: tx - 1, y: ty - 1 }];
+        for (let p of pts) {
+            if (p.x >= 0 && p.x < MAP_WIDTH && p.y >= 0 && p.y < MAP_HEIGHT) {
+                if (map[p.y][p.x] === TILES.ROCK) return p;
+            }
+        }
+        return null;
+    };
 
     // Harvest Turnips
     if (tileType === TILES.CROP_READY) {
@@ -676,14 +753,20 @@ function interact() {
     }
 
     // Axe (0) works on Trees (2)
-    if (activeTool === 0 && tileType === TILES.TREE) {
-        map[targetTile.y][targetTile.x] = TILES.GRASS;
-        addInventory('wood', 1);
+    if (activeTool === 0) {
+        let treePoint = findTree(targetTile.x, targetTile.y);
+        if (treePoint) {
+            map[treePoint.y][treePoint.x] = TILES.GRASS;
+            addInventory('wood', 1);
+        }
     }
     // Pickaxe (1) works on Rocks (3)
-    else if (activeTool === 1 && tileType === TILES.ROCK) {
-        map[targetTile.y][targetTile.x] = TILES.GRASS;
-        addInventory('stone', 1);
+    else if (activeTool === 1) {
+        let rockPoint = findRock(targetTile.x, targetTile.y);
+        if (rockPoint) {
+            map[rockPoint.y][rockPoint.x] = TILES.GRASS;
+            addInventory('stone', 1);
+        }
     }
     // Hoe (2) works on Grass (0) or Dirt (4)
     else if (activeTool === 2) {
@@ -691,12 +774,35 @@ function interact() {
             map[targetTile.y][targetTile.x] = TILES.DIRT;
         } else if (tileType === TILES.DIRT) {
             map[targetTile.y][targetTile.x] = TILES.GRASS; // Untill
+            wateredTiles.delete(`${targetTile.x},${targetTile.y}`);
         }
     }
     // Seeds (3) works on Dirt (4)
     else if (activeTool === 3 && tileType === TILES.DIRT) {
         map[targetTile.y][targetTile.x] = TILES.SEEDS;
         activeCrops.push({ x: targetTile.x, y: targetTile.y, plantTime: Date.now() });
+    }
+    // Watering Can (4) works on Dirt and Crops
+    else if (activeTool === 4 && (tileType === TILES.DIRT || tileType >= TILES.SEEDS)) {
+        wateredTiles.add(`${targetTile.x},${targetTile.y}`);
+    }
+    // Fence (5) works on Grass or Dirt, costs 1 Wood
+    else if (activeTool === 5 && (tileType === TILES.GRASS || tileType === TILES.DIRT) && inventory.wood > 0) {
+        map[targetTile.y][targetTile.x] = TILES.FENCE;
+        inventory.wood--;
+        invWoodEl.innerText = inventory.wood;
+    }
+    // Path (6) works on Grass or Dirt, costs 1 Stone
+    else if (activeTool === 6 && (tileType === TILES.GRASS || tileType === TILES.DIRT) && inventory.stone > 0) {
+        map[targetTile.y][targetTile.x] = TILES.PATH;
+        inventory.stone--;
+        invStoneEl.innerText = inventory.stone;
+    }
+    // Breaking Fences / Paths with Axe or Pickaxe
+    else if ((activeTool === 0 || activeTool === 1) && (tileType === TILES.FENCE || tileType === TILES.PATH)) {
+        map[targetTile.y][targetTile.x] = TILES.GRASS; // Break to grass
+        if (tileType === TILES.FENCE) addInventory('wood', 1);
+        if (tileType === TILES.PATH) addInventory('stone', 1);
     }
 }
 
@@ -712,9 +818,19 @@ function drawTile(tileType, drawX, drawY) {
     let gSprite = sprites.getSprite(TILES.GRASS, SPRITE_DATA[TILES.GRASS], 16, 16, 4);
     ctx.drawImage(gSprite, drawX, drawY);
 
-    if (tileType === TILES.DIRT || tileType >= TILES.SEEDS) {
+    if (tileType === TILES.DIRT || tileType >= TILES.SEEDS || tileType === TILES.FENCE || tileType === TILES.PATH) {
+        let isWatered = wateredTiles.has(`${drawX / TILE_SIZE + camera.x / TILE_SIZE},${drawY / TILE_SIZE + camera.y / TILE_SIZE}`);
         let dSprite = sprites.getSprite(TILES.DIRT, SPRITE_DATA[TILES.DIRT], 16, 16, 4);
-        ctx.drawImage(dSprite, drawX, drawY);
+
+        // If watered, draw slightly darker dirt underneath instead
+        if (isWatered && (tileType === TILES.DIRT || tileType >= TILES.SEEDS)) {
+            // Very simple hack for "wet dirt": draw dirt, then draw translucent black over it
+            ctx.drawImage(dSprite, drawX, drawY);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(drawX, drawY, TILE_SIZE, TILE_SIZE);
+        } else if (tileType === TILES.DIRT || tileType >= TILES.SEEDS) {
+            ctx.drawImage(dSprite, drawX, drawY);
+        }
 
         if (tileType === TILES.SEEDS) {
             let sSprite = sprites.getSprite(TILES.SEEDS, SPRITE_DATA[TILES.SEEDS], 16, 16, 4);
@@ -725,6 +841,12 @@ function drawTile(tileType, drawX, drawY) {
         } else if (tileType === TILES.CROP_READY) {
             let rSprite = sprites.getSprite(TILES.CROP_READY, SPRITE_DATA[TILES.CROP_READY], 16, 16, 4);
             ctx.drawImage(rSprite, drawX, drawY);
+        } else if (tileType === TILES.FENCE) {
+            let fSprite = sprites.getSprite(TILES.FENCE, SPRITE_DATA[TILES.FENCE], 16, 16, 4);
+            ctx.drawImage(fSprite, drawX, drawY);
+        } else if (tileType === TILES.PATH) {
+            let pSprite = sprites.getSprite(TILES.PATH, SPRITE_DATA[TILES.PATH], 16, 16, 4);
+            ctx.drawImage(pSprite, drawX, drawY);
         }
     }
     else if (tileType === TILES.TREE) {
@@ -758,10 +880,18 @@ function gameLoop(timestamp) {
     for (let c of activeCrops) {
         let age = now - c.plantTime;
         let cType = map[c.y][c.x];
-        if (age > 4000 && cType === TILES.SEEDS) {
-            map[c.y][c.x] = TILES.CROP_GROWING;
-        } else if (age > 10000 && cType === TILES.CROP_GROWING) {
-            map[c.y][c.x] = TILES.CROP_READY;
+        let isWatered = wateredTiles.has(`${c.x},${c.y}`);
+
+        // Only grow if the tile is watered!
+        if (isWatered) {
+            if (age > 4000 && cType === TILES.SEEDS) {
+                map[c.y][c.x] = TILES.CROP_GROWING;
+            } else if (age > 10000 && cType === TILES.CROP_GROWING) {
+                map[c.y][c.x] = TILES.CROP_READY;
+            }
+        } else {
+            // If unwatered, push the plantTime forward so it doesn't instantly grow upon being watered
+            c.plantTime = now - age;
         }
     }
     // Cleanup activeCrops if harvested or un-tilled
