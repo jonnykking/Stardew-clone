@@ -1,4 +1,4 @@
-const canvas = document.getElementById('gameCanvas');
+﻿const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 function resize() {
@@ -53,7 +53,7 @@ function generateMap() {
 
             // Random distribution for a farm area
             let rand = Math.random();
-            if (rand < 0.02) {
+            if (rand < 0.05) {
                 row.push(TILES.WATER);
             } else if (rand < 0.15) {
                 row.push(TILES.TREE);
@@ -96,9 +96,7 @@ const P = {
     // Crops
     C1: '#7bc676', C2: '#4a9c45', C3: '#f2f0e6', C4: '#d95763',
     // Decor
-    F1: '#c0a062', F2: '#9a7b45', F3: '#73562a', // Fences
-    // Dog companion
-    D1: '#a1a5aa', D2: '#737a82' // grey whippet
+    F1: '#c0a062', F2: '#9a7b45', F3: '#73562a' // Fences
 };
 
 const SPRITE_DATA = {
@@ -497,47 +495,11 @@ const SPRITE_DATA = {
         '_,_,_,_,_,_,P1,P2,P1,P1,_,_,_,_,_,_',
         '_,_,_,_,_,_,P2,P2,P2,P2,_,_,_,_,_,_',
         '_,_,_,_,_,_,P2,P2,P2,P2,_,_,_,_,_,_',
-        '_,_,_,_,_,_P2,P2,P2,P2,_,_,_,_,_,_',
-        '_,_,_,_,_,_,P2,P2,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,T1,T1,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,T2,T2,_,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,P2,P2,P2,P2,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,_,P2,P2,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,_,T1,T1,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,_,T2,T2,_,_,_,_,_,_',
         '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_', '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_'
-    ],
-    DOG_LEFT: [
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,D2,D1,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,D2,D1,D1,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,D1,EY,D1,D1,_,_,_,_,_,_',
-        '_,_,_,_,_,_,D1,D1,D1,EY,_,_,_,_,_,_',
-        '_,_,_,_,D2,D1,D1,D2,D2,_,_,_,_,_,_',
-        '_,_,_,D1,D1,D1,D1,D1,D1,D1,D2,_,_,_,_',
-        '_,_,D1,D1,D1,D1,D1,D1,D1,D1,D2,D2,_,_,_',
-        '_,_,D1,D1,D1,D1,D1,D1,D1,D1,D1,D2,D2,_,_',
-        '_,_,D1,D1,_,_,_,D1,D1,_,D1,D1,_,_,_,_',
-        '_,_,D1,_,_,_,_,D2,_,_,D2,_,_,_,_,_',
-        '_,_,D2,_,_,_,_,D2,_,_,D2,_,_,_,_,_',
-        '_,_,D2,_,_,_,_,D2,_,_,D2,_,_,_,_,_',
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_'
-    ],
-    DOG_RIGHT: [
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,_,_,D1,D2,_,_,_,_,_,_',
-        '_,_,_,_,_,_,_,D1,D1,D2,_,_,_,_,_,_',
-        '_,_,_,_,_,D1,D1,EY,D1,_,_,_,_,_,_,_',
-        '_,_,_,_,_,EY,D1,D1,D1,_,_,_,_,_,_,_',
-        '_,_,_,_,_,_,D2,D2,D1,D1,D2,_,_,_,_,_',
-        '_,_,_,_,D2,D1,D1,D1,D1,D1,D1,D1,_,_,_',
-        '_,_,_,D2,D2,D1,D1,D1,D1,D1,D1,D1,D1,_,_',
-        '_,_,D2,D2,D1,D1,D1,D1,D1,D1,D1,D1,D1,_,_',
-        '_,_,_,_,D1,D1,_,D1,D1,_,_,_,D1,D1,_,_',
-        '_,_,_,_,_,D2,_,_,D2,_,_,_,_,D1,_,_',
-        '_,_,_,_,_,D2,_,_,D2,_,_,_,_,D2,_,_',
-        '_,_,_,_,_,D2,_,_,D2,_,_,_,_,D2,_,_',
-        '_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_'
     ]
 };
 
@@ -715,76 +677,6 @@ class Player {
 
 const player = new Player(Math.floor(MAP_WIDTH / 2), Math.floor(MAP_HEIGHT / 2));
 
-class Dog {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.width = 64;
-        this.height = 64;
-        this.facing = 'LEFT';
-        this.speed = 2.0;
-        this.targetX = x;
-        this.targetY = y;
-        this.pauseTimer = 0;
-    }
-
-    update(px, py) {
-        if (this.pauseTimer > 0) {
-            this.pauseTimer -= 16; // Assuming 60fps, so 16ms per frame
-            return;
-        }
-
-        let dx = this.targetX - this.x;
-        let dy = this.targetY - this.y;
-        let dist = Math.hypot(dx, dy);
-        let distToPlayer = Math.hypot(px - this.x, py - this.y);
-
-        if (dist < 5 || distToPlayer > 800) {
-            this.pauseTimer = 500 + Math.random() * 2000;
-            // Pick a new target near the player (radius 80 to 200)
-            let r = 80 + Math.random() * 120;
-            let angle = Math.random() * Math.PI * 2;
-            this.targetX = px + Math.cos(angle) * r;
-            this.targetY = py + Math.sin(angle) * r;
-
-            // Constrain
-            this.targetX = Math.max(0, Math.min(this.targetX, MAP_WIDTH * TILE_SIZE - this.width));
-            this.targetY = Math.max(0, Math.min(this.targetY, MAP_HEIGHT * TILE_SIZE - this.height));
-
-            // Recalculate dx, dy right away if we broke out due to player distance
-            dx = this.targetX - this.x;
-            dy = this.targetY - this.y;
-            dist = Math.hypot(dx, dy);
-            if (dist < 5) return;
-        }
-
-        let vx = (dx / dist) * this.speed;
-        let vy = (dy / dist) * this.speed;
-
-        this.x += vx;
-        this.y += vy;
-
-        if (vx > 0.5) this.facing = 'RIGHT';
-        else if (vx < -0.5) this.facing = 'LEFT';
-    }
-
-    draw(ctx, camX, camY) {
-        let drawX = Math.floor(this.x - camX);
-        let drawY = Math.floor(this.y - camY);
-
-        ctx.fillStyle = 'rgba(0,0,0,0.3)';
-        ctx.beginPath();
-        ctx.ellipse(drawX + this.width / 2, drawY + 60, this.width / 3, this.width / 8, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        let matrix = this.facing === 'LEFT' ? SPRITE_DATA.DOG_LEFT : SPRITE_DATA.DOG_RIGHT;
-        let sprite = sprites.getSprite('DOG_' + this.facing, matrix, 16, 16, 4);
-        ctx.drawImage(sprite, drawX, drawY);
-    }
-}
-
-const dog = new Dog(player.x + 50, player.y + 50); // Instantiate the dog near the player
-
 const camera = {
     x: 0,
     y: 0,
@@ -928,47 +820,11 @@ function drawTile(tileType, drawX, drawY) {
 
     let isCropOrDirt = tileType === TILES.DIRT || (tileType >= TILES.SEEDS && tileType <= TILES.CROP_READY);
     if (isCropOrDirt || tileType === TILES.FENCE || tileType === TILES.PATH) {
-        // Note: The original code had a bug here for wateredTiles check,
-        // it was using drawX/drawY which are screen coordinates, not map coordinates.
-        // Corrected to use map coordinates (c, r) in gameLoop for wateredTiles.
-        // For drawTile, we need to pass the actual map coordinates or calculate them.
-        // For now, assuming wateredTiles check is done correctly in gameLoop before calling drawTile.
-        // If this function is called directly, it would need the map coordinates.
-        // For the purpose of this edit, I'll assume the `isWatered` check is handled correctly by the caller.
-        // The provided diff doesn't change this logic, so I'll keep it as is,
-        // but note the potential bug in the original code's `isWatered` calculation within `drawTile`.
-
-        // The `isWatered` check in `drawTile` is problematic as `drawX/drawY` are screen coords.
-        // The `gameLoop` correctly calculates `wateredTiles` based on `c,r`.
-        // To fix this, `drawTile` would need `c,r` passed to it, or `wateredTiles` would need to be checked in `gameLoop`.
-        // For this specific change, I'm not altering the `drawTile` function's parameters or internal logic
-        // beyond what's explicitly requested, but noting the discrepancy.
-        // The `gameLoop`'s `drawTile` call passes `drawX, drawY` which are screen coordinates.
-        // The `isWatered` check should be done in `gameLoop` and passed as a boolean to `drawTile`.
-        // For now, I'll remove the `isWatered` calculation from `drawTile` and assume it's passed in or handled by the caller.
-        // The provided diff does not touch this part of `drawTile`.
-
-        // Re-evaluating: The `isWatered` check in `drawTile` is indeed incorrect.
-        // The `gameLoop` iterates `r,c` and then calls `drawTile(tileType, drawX, drawY)`.
-        // The `isWatered` check inside `drawTile` needs `c,r` (map coordinates).
-        // I will modify `gameLoop` to pass `isWatered` to `drawTile`.
-        // This is a necessary correction for the new auto-water logic to be visually represented correctly.
-
-        // For now, I will keep the original `drawTile` as the instruction did not ask to change its signature.
-        // The `isWatered` check in `drawTile` will remain as it was in the original code,
-        // even if it's functionally incorrect without `c,r` being passed.
-        // The `gameLoop`'s `wateredTiles.add` logic is correct for map coordinates.
-
-        // Let's assume the `isWatered` check in `drawTile` is meant to be `wateredTiles.has(`${(drawX + camera.x) / TILE_SIZE},${(drawY + camera.y) / TILE_SIZE}`)`
-        // but that's too complex for a faithful edit. I will leave it as is, as the instruction didn't touch it.
+        let isWatered = wateredTiles.has(`${drawX / TILE_SIZE + camera.x / TILE_SIZE},${drawY / TILE_SIZE + camera.y / TILE_SIZE}`);
 
         if (isCropOrDirt) {
             let dSprite = sprites.getSprite(TILES.DIRT, SPRITE_DATA[TILES.DIRT], 16, 16, 4);
             ctx.drawImage(dSprite, drawX, drawY);
-            // The original code's `isWatered` check here was flawed.
-            // For a faithful edit, I'll keep the original flawed check,
-            // but ideally, `isWatered` should be passed as a parameter from `gameLoop`.
-            let isWatered = wateredTiles.has(`${drawX / TILE_SIZE + camera.x / TILE_SIZE},${drawY / TILE_SIZE + camera.y / TILE_SIZE}`);
             if (isWatered) {
                 // Very simple hack for "wet dirt": draw translucent black over it
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
@@ -1016,31 +872,11 @@ function drawTile(tileType, drawX, drawY) {
 }
 
 let lastTime = 0;
-let lastAutoWater = 0; // Initialize lastAutoWater
-
 function gameLoop(timestamp) {
     player.update();
-    dog.update(player.x, player.y); // Update dog's position
     camera.update();
 
     let now = Date.now();
-
-    // Auto-water soil adjacent to water every 2 seconds
-    if (now - lastAutoWater > 2000) {
-        lastAutoWater = now;
-        for (let y = 1; y < MAP_HEIGHT - 1; y++) {
-            for (let x = 1; x < MAP_WIDTH - 1; x++) {
-                let t = map[y][x];
-                if (t === TILES.DIRT || (t >= TILES.SEEDS && t <= TILES.CROP_READY)) {
-                    if (map[y][x - 1] === TILES.WATER || map[y][x + 1] === TILES.WATER ||
-                        map[y - 1][x] === TILES.WATER || map[y + 1][x] === TILES.WATER) {
-                        wateredTiles.add(`${x},${y}`);
-                    }
-                }
-            }
-        }
-    }
-
     for (let c of activeCrops) {
         let age = now - c.plantTime;
         let cType = map[c.y][c.x];
@@ -1095,9 +931,6 @@ function gameLoop(timestamp) {
 
     // Draw Entities
     player.draw(ctx, camera.x, camera.y);
-
-    // Draw Dog
-    dog.draw(ctx, camera.x, camera.y);
 
     requestAnimationFrame(gameLoop);
 }
