@@ -93,6 +93,7 @@ canvas {
     justify-content: center;
     align-items: center;
     font-size: 0.8rem;
+    position: relative;
 }
 
 .slot.active {
@@ -103,4 +104,18 @@ canvas {
     border-bottom-color: #fff9d6;
     border-right-color: #fff9d6;
     box-shadow: inset 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.slot-num {
+    position: absolute;
+    bottom: 2px;
+    left: 48%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: bold;
+}
+
+.slot.active .slot-num {
+    color: rgba(156, 90, 49, 0.8);
 }
