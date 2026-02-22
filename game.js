@@ -84,7 +84,7 @@ const P = {
     _: null, // Transparent
     G1: '#63c74d', G2: '#3e8948', G3: '#265c42', // Grass
     W1: '#2ce8f5', W2: '#0099db', W3: '#2a628f', // Water
-    D1: '#a46422', D2: '#eb8931', D3: '#493c2b', // Dirt
+    D1: '#8a5c3c', D2: '#754022', D3: '#522511', // Dirt
     R1: '#c0cbdc', R2: '#8b9bb4', R3: '#5a6988', // Rock
     T1: '#4a3018', T2: '#2b1a0d', // Trunk
     L1: '#73eff7', // Water Glint
@@ -261,6 +261,24 @@ const SPRITE_DATA = {
         'F1,F1,F1,F1,F1,F1,F1,F2,F1,F1,F1,F1,F1,F1,F1,F1',
         'F2,F2,F2,F2,F2,F2,F2,F3,F2,F2,F2,F2,F2,F2,F2,F2',
         'F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3,F3',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F3,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F3,F3,_,_,_,_,_,_,_'
+    ],
+    FENCE_VERTICAL: [
+        '_,_,_,_,_,_,_,F1,F2,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F1,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
+        '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
         '_,_,_,_,_,_,_,F2,F3,_,_,_,_,_,_,_',
         '_,_,_,_,_,_,_,F3,F3,_,_,_,_,_,_,_',
         '_,_,_,_,_,_,_,F3,F3,_,_,_,_,_,_,_'
@@ -860,20 +878,30 @@ function interact() {
         return;
     }
 
-    // Axe (0) works on Trees (2)
+    // Axe (0) works on Trees (2) and Fences (8)
     if (activeTool === 0) {
-        let treePoint = findTree(targetTile.x, targetTile.y);
-        if (treePoint) {
-            map[treePoint.y][treePoint.x] = TILES.GRASS;
+        if (tileType === TILES.FENCE) {
+            map[targetTile.y][targetTile.x] = TILES.GRASS;
             addInventory('wood', 1);
+        } else {
+            let treePoint = findTree(targetTile.x, targetTile.y);
+            if (treePoint) {
+                map[treePoint.y][treePoint.x] = TILES.GRASS;
+                addInventory('wood', 1);
+            }
         }
     }
-    // Pickaxe (1) works on Rocks (3)
+    // Pickaxe (1) works on Rocks (3) and Paths (9)
     else if (activeTool === 1) {
-        let rockPoint = findRock(targetTile.x, targetTile.y);
-        if (rockPoint) {
-            map[rockPoint.y][rockPoint.x] = TILES.GRASS;
+        if (tileType === TILES.PATH) {
+            map[targetTile.y][targetTile.x] = TILES.GRASS;
             addInventory('stone', 1);
+        } else {
+            let rockPoint = findRock(targetTile.x, targetTile.y);
+            if (rockPoint) {
+                map[rockPoint.y][rockPoint.x] = TILES.GRASS;
+                addInventory('stone', 1);
+            }
         }
     }
     // Hoe (2) works on Grass (0) or Dirt (4)
@@ -888,7 +916,7 @@ function interact() {
     // Seeds (3) works on Dirt (4)
     else if (activeTool === 3 && tileType === TILES.DIRT) {
         map[targetTile.y][targetTile.x] = TILES.SEEDS;
-        activeCrops.push({ x: targetTile.x, y: targetTile.y, plantTime: Date.now() });
+        activeCrops.push({ x: targetTile.x, y: targetTile.y, age: 0 }); // Use age explicitly
     }
     // Watering Can (4) works on Dirt and Crops
     else if (activeTool === 4 && (tileType === TILES.DIRT || tileType >= TILES.SEEDS)) {
@@ -906,16 +934,10 @@ function interact() {
         inventory.stone--;
         invStoneEl.innerText = inventory.stone;
     }
-    // Breaking Fences / Paths with Axe or Pickaxe
-    else if ((activeTool === 0 || activeTool === 1) && (tileType === TILES.FENCE || tileType === TILES.PATH)) {
-        map[targetTile.y][targetTile.x] = TILES.GRASS; // Break to grass
-        if (tileType === TILES.FENCE) addInventory('wood', 1);
-        if (tileType === TILES.PATH) addInventory('stone', 1);
-    }
 }
 
 // --- Drawing ---
-function drawTile(tileType, drawX, drawY) {
+function drawTile(tileType, drawX, drawY, c, r) {
     if (tileType === TILES.WATER) {
         let wSprite = sprites.getSprite(TILES.WATER, SPRITE_DATA[TILES.WATER], 16, 16, 4);
         ctx.drawImage(wSprite, drawX, drawY);
@@ -928,50 +950,15 @@ function drawTile(tileType, drawX, drawY) {
 
     let isCropOrDirt = tileType === TILES.DIRT || (tileType >= TILES.SEEDS && tileType <= TILES.CROP_READY);
     if (isCropOrDirt || tileType === TILES.FENCE || tileType === TILES.PATH) {
-        // Note: The original code had a bug here for wateredTiles check,
-        // it was using drawX/drawY which are screen coordinates, not map coordinates.
-        // Corrected to use map coordinates (c, r) in gameLoop for wateredTiles.
-        // For drawTile, we need to pass the actual map coordinates or calculate them.
-        // For now, assuming wateredTiles check is done correctly in gameLoop before calling drawTile.
-        // If this function is called directly, it would need the map coordinates.
-        // For the purpose of this edit, I'll assume the `isWatered` check is handled correctly by the caller.
-        // The provided diff doesn't change this logic, so I'll keep it as is,
-        // but note the potential bug in the original code's `isWatered` calculation within `drawTile`.
-
-        // The `isWatered` check in `drawTile` is problematic as `drawX/drawY` are screen coords.
-        // The `gameLoop` correctly calculates `wateredTiles` based on `c,r`.
-        // To fix this, `drawTile` would need `c,r` passed to it, or `wateredTiles` would need to be checked in `gameLoop`.
-        // For this specific change, I'm not altering the `drawTile` function's parameters or internal logic
-        // beyond what's explicitly requested, but noting the discrepancy.
-        // The `gameLoop`'s `drawTile` call passes `drawX, drawY` which are screen coordinates.
-        // The `isWatered` check should be done in `gameLoop` and passed as a boolean to `drawTile`.
-        // For now, I'll remove the `isWatered` calculation from `drawTile` and assume it's passed in or handled by the caller.
-        // The provided diff does not touch this part of `drawTile`.
-
-        // Re-evaluating: The `isWatered` check in `drawTile` is indeed incorrect.
-        // The `gameLoop` iterates `r,c` and then calls `drawTile(tileType, drawX, drawY)`.
-        // The `isWatered` check inside `drawTile` needs `c,r` (map coordinates).
-        // I will modify `gameLoop` to pass `isWatered` to `drawTile`.
-        // This is a necessary correction for the new auto-water logic to be visually represented correctly.
-
-        // For now, I will keep the original `drawTile` as the instruction did not ask to change its signature.
-        // The `isWatered` check in `drawTile` will remain as it was in the original code,
-        // even if it's functionally incorrect without `c,r` being passed.
-        // The `gameLoop`'s `wateredTiles.add` logic is correct for map coordinates.
-
-        // Let's assume the `isWatered` check in `drawTile` is meant to be `wateredTiles.has(`${(drawX + camera.x) / TILE_SIZE},${(drawY + camera.y) / TILE_SIZE}`)`
-        // but that's too complex for a faithful edit. I will leave it as is, as the instruction didn't touch it.
+        let isWatered = wateredTiles.has(`${drawX / TILE_SIZE + camera.x / TILE_SIZE},${drawY / TILE_SIZE + camera.y / TILE_SIZE}`);
+        if (c !== undefined && r !== undefined) isWatered = wateredTiles.has(`${c},${r}`);
 
         if (isCropOrDirt) {
             let dSprite = sprites.getSprite(TILES.DIRT, SPRITE_DATA[TILES.DIRT], 16, 16, 4);
             ctx.drawImage(dSprite, drawX, drawY);
-            // The original code's `isWatered` check here was flawed.
-            // For a faithful edit, I'll keep the original flawed check,
-            // but ideally, `isWatered` should be passed as a parameter from `gameLoop`.
-            let isWatered = wateredTiles.has(`${drawX / TILE_SIZE + camera.x / TILE_SIZE},${drawY / TILE_SIZE + camera.y / TILE_SIZE}`);
             if (isWatered) {
-                // Very simple hack for "wet dirt": draw translucent black over it
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                // Richer soil color overlay for wet dirt
+                ctx.fillStyle = 'rgba(60, 20, 0, 0.25)';
                 ctx.fillRect(drawX, drawY, TILE_SIZE, TILE_SIZE);
             }
         }
@@ -986,7 +973,18 @@ function drawTile(tileType, drawX, drawY) {
             let rSprite = sprites.getSprite(TILES.CROP_READY, SPRITE_DATA[TILES.CROP_READY], 16, 16, 4);
             ctx.drawImage(rSprite, drawX, drawY);
         } else if (tileType === TILES.FENCE) {
-            let fSprite = sprites.getSprite(TILES.FENCE, SPRITE_DATA[TILES.FENCE], 16, 16, 4);
+            let isVertical = false;
+            if (c !== undefined && r !== undefined) {
+                let fenceUp = r > 0 && map[r - 1][c] === TILES.FENCE;
+                let fenceDown = r < MAP_HEIGHT - 1 && map[r + 1][c] === TILES.FENCE;
+                let fenceLeft = c > 0 && map[r][c - 1] === TILES.FENCE;
+                let fenceRight = c < MAP_WIDTH - 1 && map[r][c + 1] === TILES.FENCE;
+                if ((fenceUp || fenceDown) && !fenceLeft && !fenceRight) {
+                    isVertical = true;
+                }
+            }
+            let spriteKey = isVertical ? 'FENCE_VERTICAL' : TILES.FENCE;
+            let fSprite = sprites.getSprite(spriteKey, SPRITE_DATA[spriteKey] || SPRITE_DATA[TILES.FENCE], 16, 16, 4);
             ctx.drawImage(fSprite, drawX, drawY);
         } else if (tileType === TILES.PATH) {
             let pSprite = sprites.getSprite(TILES.PATH, SPRITE_DATA[TILES.PATH], 16, 16, 4);
@@ -1016,7 +1014,7 @@ function drawTile(tileType, drawX, drawY) {
 }
 
 let lastTime = 0;
-let lastAutoWater = 0; // Initialize lastAutoWater
+let lastAutoWater = 0;
 
 function gameLoop(timestamp) {
     player.update();
@@ -1024,42 +1022,64 @@ function gameLoop(timestamp) {
     camera.update();
 
     let now = Date.now();
+    let delta = now - lastTime;
+    if (lastTime === 0 || delta > 100) delta = 16; // Prevent massive jumps
+    lastTime = now;
 
     // Auto-water soil adjacent to water every 2 seconds
     if (now - lastAutoWater > 2000) {
         lastAutoWater = now;
-        for (let y = 1; y < MAP_HEIGHT - 1; y++) {
-            for (let x = 1; x < MAP_WIDTH - 1; x++) {
-                let t = map[y][x];
+        let newWatered = new Set();
+
+        // Scan the map for DIRT or CROPS adjacent to WATER
+        for (let r = 0; r < MAP_HEIGHT; r++) {
+            for (let c = 0; c < MAP_WIDTH; c++) {
+                let t = map[r][c];
                 if (t === TILES.DIRT || (t >= TILES.SEEDS && t <= TILES.CROP_READY)) {
-                    if (map[y][x - 1] === TILES.WATER || map[y][x + 1] === TILES.WATER ||
-                        map[y - 1][x] === TILES.WATER || map[y + 1][x] === TILES.WATER) {
-                        wateredTiles.add(`${x},${y}`);
+                    // Check neighbors
+                    let watered = false;
+                    const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+                    for (let [dy, dx] of dirs) {
+                        let ny = r + dy, nx = c + dx;
+                        if (ny >= 0 && nx >= 0 && ny < MAP_HEIGHT && nx < MAP_WIDTH) {
+                            if (map[ny][nx] === TILES.WATER) {
+                                watered = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (watered) {
+                        newWatered.add(`${c},${r}`);
                     }
                 }
             }
         }
+
+        // Merge into wateredTiles
+        for (let tile of newWatered) {
+            wateredTiles.add(tile);
+        }
     }
 
-    for (let c of activeCrops) {
-        let age = now - c.plantTime;
-        let cType = map[c.y][c.x];
-        let isWatered = wateredTiles.has(`${c.x},${c.y}`);
+    for (let crop of activeCrops) {
+        // Handle migration from old 'plantTime' format just in case
+        if (crop.age === undefined) crop.age = now - (crop.plantTime || now);
 
-        // Only grow if the tile is watered!
+        let cType = map[crop.y][crop.x];
+        let isWatered = wateredTiles.has(`${crop.x},${crop.y}`);
+
+        // Only explicitly increase crop age when the tile is watered
         if (isWatered) {
-            if (age > 4000 && cType === TILES.SEEDS) {
-                map[c.y][c.x] = TILES.CROP_GROWING;
-            } else if (age > 10000 && cType === TILES.CROP_GROWING) {
-                map[c.y][c.x] = TILES.CROP_READY;
+            crop.age += delta;
+            if (crop.age > 4000 && cType === TILES.SEEDS) {
+                map[crop.y][crop.x] = TILES.CROP_GROWING;
+            } else if (crop.age > 10000 && cType === TILES.CROP_GROWING) {
+                map[crop.y][crop.x] = TILES.CROP_READY;
             }
-        } else {
-            // If unwatered, push the plantTime forward so it doesn't instantly grow upon being watered
-            c.plantTime = now - age;
         }
     }
     // Cleanup activeCrops if harvested or un-tilled
-    activeCrops = activeCrops.filter(c => map[c.y][c.x] >= TILES.SEEDS && map[c.y][c.x] <= TILES.CROP_READY);
+    activeCrops = activeCrops.filter(crop => map[crop.y][crop.x] >= TILES.SEEDS && map[crop.y][crop.x] <= TILES.CROP_READY);
 
     // Clear screen
     ctx.fillStyle = '#000';
@@ -1080,7 +1100,7 @@ function gameLoop(timestamp) {
                 let drawY = (r * TILE_SIZE) - camera.y;
 
                 // Draw tile
-                drawTile(tileType, drawX, drawY);
+                drawTile(tileType, drawX, drawY, c, r);
 
                 // Draw interaction highlight if in front of player
                 let faceTarget = player.getFacingTile();
