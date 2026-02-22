@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background-color: #000;
+    font-family: 'Courier New', Courier, monospace;
+    /* simple retro feel */
+}
+
+canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    /* Prevent anti-aliasing to keep pixel art crisp if scaling */
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+#game-ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Let clicks pass through to canvas */
+    z-index: 10;
+}
+
+#clock,
+#inventory-panel,
+.slot {
+    background: #e2a85e;
+    /* Lighter wood base */
+    border: 4px solid;
+    /* Creating a 3D bevel effect with border colors */
+    border-top-color: #f7d299;
+    border-left-color: #f7d299;
+    border-bottom-color: #9c5a31;
+    border-right-color: #9c5a31;
+    border-radius: 0;
+    /* Authentic pixel UI has sharp or pixelated corners */
+    color: #4a2119;
+    font-size: 1.2rem;
+    font-weight: 900;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.4);
+    box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.1), 4px 4px 0 rgba(0, 0, 0, 0.4);
+    font-family: 'Courier New', Courier, monospace;
+    /* Placeholder for chunky retro font */
+}
+
+#clock {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+}
+
+#inventory-panel {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#inventory-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    background: rgba(156, 90, 49, 0.7);
+    /* Darker backing */
+    padding: 8px;
+    border: 4px solid #4a2119;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.slot {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.slot.active {
+    /* Pressed inward look with gold tint */
+    background: #ffdb70;
+    border-top-color: #9c5a31;
+    border-left-color: #9c5a31;
+    border-bottom-color: #fff9d6;
+    border-right-color: #fff9d6;
+    box-shadow: inset 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
