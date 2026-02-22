@@ -10,21 +10,32 @@
 
 <body>
     <div id="game-ui">
-        <div id="clock">Day 1 | 12:00 PM</div>
-        <div id="inventory-panel">
-            <div class="inv-item">Turnips: <span id="inv-turnip">0</span></div>
-            <div class="inv-item">Wood: <span id="inv-wood">0</span></div>
-            <div class="inv-item">Stone: <span id="inv-stone">0</span></div>
+        <div id="top-right-hud">
+            <div id="clock">Day 1 | 12:00 PM</div>
+            <div id="gold-display">Gold: <span id="player-gold">0</span></div>
+            <div id="inventory-panel">
+                <div class="inv-item">Turnips: <span id="inv-turnip">0</span></div>
+                <div class="inv-item">Tomatoes: <span id="inv-tomato">0</span></div>
+                <div class="inv-item">Melons: <span id="inv-melon">0</span></div>
+                <div class="inv-item">Wood: <span id="inv-wood">0</span></div>
+                <div class="inv-item">Stone: <span id="inv-stone">0</span></div>
+            </div>
+        </div>
+        <div id="energy-bar-container">
+            <div id="energy-bar-fill"></div>
+            <div id="energy-text">E: 100</div>
         </div>
         <div id="inventory-bar">
             <!-- Simulated tool hotbar -->
             <div class="slot active">Axe<span class="slot-num">1</span></div>
-            <div class="slot">Pickaxe<span class="slot-num">2</span></div>
+            <div class="slot">Pick<span class="slot-num">2</span></div>
             <div class="slot">Hoe<span class="slot-num">3</span></div>
-            <div class="slot">Seeds<span class="slot-num">4</span></div>
-            <div class="slot">Can<span class="slot-num">5</span></div>
-            <div class="slot">Fence<span class="slot-num">6</span></div>
-            <div class="slot">Path<span class="slot-num">7</span></div>
+            <div class="slot">TurnipS<span class="slot-num">4</span></div>
+            <div class="slot">TomatoS<span class="slot-num">5</span></div>
+            <div class="slot">MelonS<span class="slot-num">6</span></div>
+            <div class="slot">Can<span class="slot-num">7</span></div>
+            <div class="slot">Fence<span class="slot-num">8</span></div>
+            <div class="slot">Path<span class="slot-num">9</span></div>
         </div>
     </div>
     <canvas id="gameCanvas"></canvas>

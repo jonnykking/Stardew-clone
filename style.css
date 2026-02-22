@@ -33,8 +33,7 @@ canvas {
     z-index: 10;
 }
 
-#clock,
-#inventory-panel,
+#top-right-hud,
 .slot {
     background: #e2a85e;
     /* Lighter wood base */
@@ -55,21 +54,79 @@ canvas {
     /* Placeholder for chunky retro font */
 }
 
-#clock {
+#top-right-hud {
     position: absolute;
     top: 20px;
     right: 20px;
-    padding: 10px 15px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 160px;
+}
+
+#clock {
+    font-size: 1.1em;
+    border-bottom: 2px solid #b57a54;
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+#gold-display {
+    font-size: 1em;
+    color: #8c5d14;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.6);
+    text-align: right;
+    display: flex;
+    justify-content: space-between;
+}
+
+#energy-bar-container {
+    position: absolute;
+    bottom: 120px;
+    right: 20px;
+    width: 30px;
+    height: 150px;
+    background: #622f1d;
+    border: 4px solid #4a2119;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#energy-bar-fill {
+    width: 100%;
+    height: 100%;
+    /* Scales inline from JS */
+    background: #7bd94e;
+    transition: height 0.3s ease;
+}
+
+#energy-text {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    font-family: monospace;
+    color: white;
+    text-shadow: 1px 1px 0 #000;
 }
 
 #inventory-panel {
-    position: absolute;
-    top: 80px;
-    right: 20px;
-    padding: 10px 15px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+    font-size: 0.9em;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.inv-item {
+    display: flex;
+    justify-content: space-between;
 }
 
 #inventory-bar {
